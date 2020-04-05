@@ -1,3 +1,5 @@
+#include <wsw.h>
+
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -50,20 +52,20 @@ int WaveSetWizardAudioProcessor::getCurrentProgram()
     return 0;
 }
 
-void WaveSetWizardAudioProcessor::setCurrentProgram (int index)
+void WaveSetWizardAudioProcessor::setCurrentProgram (int )
 {
 }
 
-const String WaveSetWizardAudioProcessor::getProgramName (int index)
+const String WaveSetWizardAudioProcessor::getProgramName (int )
 {
     return {};
 }
 
-void WaveSetWizardAudioProcessor::changeProgramName (int index, const String& newName)
+void WaveSetWizardAudioProcessor::changeProgramName (int , const String& )
 {
 }
 
-void WaveSetWizardAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void WaveSetWizardAudioProcessor::prepareToPlay (double , int )
 {
 
 }
@@ -104,15 +106,8 @@ void WaveSetWizardAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-        
-        for(auto i = 0; i < buffer.getNumSamples(); ++i)
-        {
-            channelData[i] = static_cast<float>(rand() % 20000) / 10000.0;
-        }
-    }
+    auto* rawdata = buffer.getWritePointer (0);
+    process(rawdata, 2, buffer.getNumSamples());
 }
 
 bool WaveSetWizardAudioProcessor::hasEditor() const
@@ -125,14 +120,14 @@ AudioProcessorEditor* WaveSetWizardAudioProcessor::createEditor()
     return new WaveSetWizardAudioProcessorEditor (*this);
 }
 
-void WaveSetWizardAudioProcessor::getStateInformation (MemoryBlock& destData)
+void WaveSetWizardAudioProcessor::getStateInformation (MemoryBlock& )
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void WaveSetWizardAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void WaveSetWizardAudioProcessor::setStateInformation (const void* , int )
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
