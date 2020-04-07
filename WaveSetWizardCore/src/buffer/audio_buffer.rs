@@ -1,22 +1,15 @@
 use std::vec::Vec;
 use std::ptr;
 
-pub trait AudioBufferHandler {
-    fn new(channels : usize, block_size : usize) -> Self;
-    fn new_from_pointer(channels : usize, block_size : usize, source : *const f32) ->Self;
-    fn channel(&self, ch : usize) -> &[f32];
-    fn channel_count(&self) -> usize;
-}
-
-struct AudioBuffer {
+pub struct AudioBuffer {
     data : Vec<f32>,
     channels : usize,
     block_size : usize
 }
 
-impl AudioBufferHandler for AudioBuffer {
+impl AudioBuffer {
 
-    fn new(channels: usize, block_size: usize) -> Self {
+    pub fn new(channels: usize, block_size: usize) -> Self {
         AudioBuffer {
             data: vec![0.0; channels * block_size],
             channels,
@@ -24,7 +17,7 @@ impl AudioBufferHandler for AudioBuffer {
         }
     }
 
-    fn new_from_pointer(channels: usize, block_size: usize, source: *const f32) -> Self {
+    pub fn new_from_pointer(channels: usize, block_size: usize, source: *const f32) -> Self {
         let mut audio_buffer = Self::new(channels, block_size);
         // Todo: copying is not optimal for performance. should be reference
         if source != ptr::null(){
@@ -36,13 +29,13 @@ impl AudioBufferHandler for AudioBuffer {
         return audio_buffer;
     }
 
-    fn channel(&self, ch : usize) -> &[f32] {
+    pub fn channel(&mut self, ch : usize) -> &mut [f32] {
         let begin = ch * self.block_size;
         let end = begin + self.block_size;
-        return &self.data[begin..end];
+        return &mut self.data[begin..end];
     }
 
-    fn channel_count(&self) -> usize {
+    pub fn channel_count(&self) -> usize {
         return self.channels;
     }
 }
@@ -57,7 +50,7 @@ mod tests {
 
     #[test]
     fn new() {
-        let audio_buffer : AudioBuffer =  AudioBufferHandler::new(2, 64);
+        let audio_buffer = AudioBuffer::new(2, 64);
 
         assert_eq!(audio_buffer.channels,  2);
         assert_eq!(audio_buffer.block_size, 64);
@@ -71,12 +64,12 @@ mod tests {
     #[test]
     fn new_from_pointer() {
         unsafe {
-            let mut c_buffer: *mut f32 = libc::malloc(mem::size_of::<f32>() * 128) as *mut f32;
+            let c_buffer: *mut f32 = libc::malloc(mem::size_of::<f32>() * 128) as *mut f32;
             for i in 0..128 {
                 *c_buffer.offset(i) = 0.5;
             }
 
-            let audio_buffer : AudioBuffer =  AudioBufferHandler::new_from_pointer(2, 64, c_buffer);
+            let audio_buffer = AudioBuffer::new_from_pointer(2, 64, c_buffer);
 
             assert_eq!(audio_buffer.channels,  2);
             assert_eq!(audio_buffer.block_size, 64);
@@ -92,14 +85,14 @@ mod tests {
 
     #[test]
     fn channel() {
-        let audio_buffer : AudioBuffer =  AudioBufferHandler::new(2, 64);
+        let mut audio_buffer =  AudioBuffer::new(2, 64);
         let channel = audio_buffer.channel(1);
         assert_eq!(channel.len(), 64);
     }
 
     #[test]
     fn channel_count() {
-        let audio_buffer : AudioBuffer =  AudioBufferHandler::new(4, 64);
+        let audio_buffer =  AudioBuffer::new(4, 64);
         assert_eq!(audio_buffer.channel_count(), 4);
     }
 }

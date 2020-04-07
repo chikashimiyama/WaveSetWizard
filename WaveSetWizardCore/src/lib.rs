@@ -1,14 +1,16 @@
-extern crate rand;
-
-use rand::Rng;
 mod buffer;
+mod processor;
+
+use buffer::audio_buffer::AudioBuffer;
 
 #[no_mangle]
-pub unsafe extern fn process( buffer : *mut f32, channels: u16, block_size : u16)
+pub unsafe extern fn prepare_to_play( channels: usize, block_size : usize)
 {
-    let mut rng = rand::thread_rng();
-    for i in 0..channels * block_size
-    {
-        *buffer.offset(i as isize) = rng.gen::<f32>() * 2.0 - 1.0;
-    }
+}
+
+
+#[no_mangle]
+pub unsafe extern fn process( buffer : *mut f32, channels: usize, block_size : usize)
+{
+    let audio_buffer = AudioBuffer::new_from_pointer(channels, block_size, buffer);
 }
