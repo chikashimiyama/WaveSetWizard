@@ -18,6 +18,15 @@ impl AudioRingBuffer {
         }
     }
 
+    pub unsafe fn push_from_pointer(&mut self, buffer: *const f32, channels: usize, block_size: usize )
+    {
+        let mut offset = 0;
+        for i in 0..channels {
+            self.data[i].push(*buffer.offset(offset));
+            offset += 1;
+        }
+    }
+
     pub fn push(&mut self, mut audio_buffer: AudioBuffer)
     {
         let channels = std::cmp::min(audio_buffer.channel_count(), self.data.len());
@@ -34,12 +43,14 @@ impl AudioRingBuffer {
         return self.data[0].len();
     }
 
+    pub fn channels(&self) -> usize { return self.data.len(); }
+
     pub fn pop(&mut self, block_size: usize) -> Option<AudioBuffer> {
         if self.data[0].len() < block_size { return None; }
 
         let mut audio_buffer = AudioBuffer::new(self.data.len(), block_size);
         for i in 0..audio_buffer.channel_count() {
-            let mut channel = audio_buffer.channel(i);
+            let channel = audio_buffer.channel(i);
             for j in 0..block_size {
                 let sample = self.data[i].pop().unwrap();
                 channel[j] = sample;
@@ -51,8 +62,8 @@ impl AudioRingBuffer {
 
 #[cfg(test)]
 mod tests {
-    use crate::buffer::audio_ring_buffer::AudioRingBuffer;
-    use crate::buffer::audio_buffer::AudioBuffer;
+    use crate::processor::audio_ring_buffer::AudioRingBuffer;
+    use crate::processor::audio_buffer::AudioBuffer;
 
     #[test]
     fn pop_insufficient_samples_in_buffer(){

@@ -45,7 +45,7 @@ impl AudioBuffer {
 mod tests {
 
     use std::mem;
-    use crate::buffer::audio_buffer::*;
+    use crate::processor::audio_buffer::AudioBuffer;
     use libc;
 
     #[test]
