@@ -2,17 +2,15 @@ pub struct WaveSetDetector {
     ready : bool
 }
 
-impl WaveSetDetector
-{
-    pub fn new() -> Self
-    {
+impl WaveSetDetector {
+
+    pub fn new() -> Self {
         WaveSetDetector{
             ready:true
         }
     }
 
-    pub fn check(&mut self, value : f32) -> bool
-    {
+    pub fn check(&mut self, value : f32) -> bool {
         if value > 0.0 && self.ready == true{
             self.ready = false;
             return true;

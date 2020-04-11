@@ -3,9 +3,8 @@ mod processor;
 use processor::engine::Engine;
 
 #[no_mangle]
-pub extern fn create( channels: usize, block_size : usize) -> *mut Engine
-{
-    Box::into_raw(Box::new(Engine::new(channels, block_size)))
+pub extern fn create( channels: usize ) -> *mut Engine {
+    Box::into_raw(Box::new(Engine::new(channels)))
 }
 
 #[no_mangle]

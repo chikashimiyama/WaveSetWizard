@@ -1,31 +1,39 @@
-use crate::processor::audio_ring_buffer::AudioRingBuffer;
+use std::vec::Vec;
+use crate::processor::wave_set_channel::WaveSetChannel;
 
 pub struct Engine{
-    block_size : usize,
-    ring_buffer : AudioRingBuffer,
-    threshold : usize,
-    distortion: f32
+    distortion: f32,
+    wave_set_channels: Vec<WaveSetChannel>
 }
 
 impl Engine{
-    pub fn new(channels: usize, block_size: usize) -> Self {
+
+    pub fn new(channels: usize) -> Self {
+        let mut wave_set_channels = Vec::new();
+        for _ in 0..channels {
+            wave_set_channels.push(WaveSetChannel::new(2048));
+        }
+
         Engine {
-            block_size,
-            ring_buffer: AudioRingBuffer::new(channels, 4096),
-            threshold: 2048,
-            distortion: 1.0
+            distortion: 1.0,
+            wave_set_channels
         }
     }
 
-    pub fn process(&mut self, buffer: *mut f32, channels:usize, block_size: usize)
-    {
-        unsafe {
-            self.ring_buffer.push_from_pointer(buffer, channels, block_size);
+    pub fn process(&mut self, buffer: *mut f32, channels:usize, block_size: usize) {
+
+        for ch in 0..channels{
+            for index in 0..block_size {
+                unsafe {
+                    let offset = (ch * block_size + index) as isize;
+                    let popped = self.wave_set_channels[ch].push_pop(*buffer.offset(offset));
+                    *buffer.offset(offset) = popped;
+                }
+            }
         }
     }
 
-    pub fn set_distortion(&mut self, value: f32)
-    {
+    pub fn set_distortion(&mut self, value: f32) {
         self.distortion = value;
     }
 }
