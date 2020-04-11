@@ -14,8 +14,7 @@ pub unsafe extern fn destroy( engine: *mut Engine) {
 }
 
 #[no_mangle]
-pub unsafe extern fn process( engine: &mut Engine, buffer : *mut f32, channels: usize, block_size : usize)
-{
+pub unsafe extern fn process( engine: &mut Engine, buffer : *mut f32, channels: usize, block_size : usize) {
     engine.process(buffer, channels, block_size);
 }
 

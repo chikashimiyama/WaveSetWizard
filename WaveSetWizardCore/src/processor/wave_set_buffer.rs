@@ -27,7 +27,6 @@ impl WaveSetBuffer
 
         let mut replacement = Vec::with_capacity(length);
         for _ in 0..length{
-            // here we implement interpolation
             replacement.push(f32::sin(phase) * self.peak_amp );
             phase += step;
         }

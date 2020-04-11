@@ -15,12 +15,12 @@ impl WaveSetChannel{
 
         WaveSetChannel{
             processed,
-            wave_set_detector: WaveSetDetector::new(),
+            wave_set_detector: WaveSetDetector::new(max_length),
             current_buffer: WaveSetBuffer::new(max_length),
         }
     }
 
-    pub fn push_pop(&mut self, sample: f32) ->f32{
+    pub fn push_pop(&mut self, sample: f32) -> f32 {
         if self.wave_set_detector.check(sample){
             for value in self.current_buffer.generate() {
                 self.processed.push_back(value);
