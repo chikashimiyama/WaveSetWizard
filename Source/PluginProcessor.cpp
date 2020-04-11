@@ -1,5 +1,3 @@
-#include <wsw.h>
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -7,10 +5,13 @@ WaveSetWizardAudioProcessor::WaveSetWizardAudioProcessor()
 : AudioProcessor (BusesProperties()
                   .withInput  ("Input",  AudioChannelSet::stereo(), true)
                   .withOutput ("Output", AudioChannelSet::stereo(), true))
-{}
+{
+    engine_ = create(2);
+}
 
 WaveSetWizardAudioProcessor::~WaveSetWizardAudioProcessor()
 {
+    destroy(engine_);
 }
 
 const String WaveSetWizardAudioProcessor::getName() const
@@ -72,6 +73,7 @@ void WaveSetWizardAudioProcessor::prepareToPlay (double , int )
 
 void WaveSetWizardAudioProcessor::releaseResources()
 {
+
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -107,7 +109,7 @@ void WaveSetWizardAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
         buffer.clear (i, 0, buffer.getNumSamples());
 
     auto* rawdata = buffer.getWritePointer (0);
-    process(rawdata, 2, buffer.getNumSamples());
+    process(engine_, rawdata, 2, buffer.getNumSamples());
 }
 
 bool WaveSetWizardAudioProcessor::hasEditor() const

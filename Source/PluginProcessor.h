@@ -1,6 +1,6 @@
-
-
 #pragma once
+
+#include <wsw.h>
 
 #include <JuceHeader.h>
 
@@ -34,5 +34,6 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+   Engine* engine_;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveSetWizardAudioProcessor)
 };

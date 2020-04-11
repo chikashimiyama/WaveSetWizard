@@ -16,7 +16,7 @@ impl WaveSetDetector {
 
     pub fn check(&mut self, value : f32) -> bool {
 
-        if self.count == self.max_length {
+        if self.count == self.max_length-1 {
             self.reset();
             return true;
         }
@@ -29,6 +29,8 @@ impl WaveSetDetector {
         if value <= 0.0 {
             self.ready = true;
         }
+
+        self.count += 1;
         return false;
     }
 
@@ -44,11 +46,35 @@ mod tests {
 
     #[test]
     fn check() {
-        let mut detector = WaveSetDetector::new(2048);
+        let mut detector = WaveSetDetector::new(64);
         assert_eq!(detector.check(0.0), false);
         assert_eq!(detector.check(0.001), true);
         assert_eq!(detector.check(0.002), false);
         assert_eq!(detector.check(0.0), false);
         assert_eq!(detector.check(0.001), true)
+    }
+
+    #[test]
+    fn reach_max_length() {
+        let mut detector = WaveSetDetector::new(10);
+        for _ in 0..9 {
+            assert_eq!(detector.check(0.0), false);
+        }
+        assert_eq!(detector.check(0.0), true);
+        assert_eq!(detector.check(0.0), false);
+    }
+
+    #[test]
+    fn detection_reset_max_length_count() {
+        let mut detector = WaveSetDetector::new(10);
+
+        assert_eq!(detector.check(0.0), false);
+        assert_eq!(detector.check(0.0), false);
+        assert_eq!(detector.check(0.001), true);
+
+        for _ in 0..9 {
+            assert_eq!(detector.check(0.0), false);
+        }
+        assert_eq!(detector.check(0.0), true);
     }
 }

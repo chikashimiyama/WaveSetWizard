@@ -32,6 +32,7 @@ impl WaveSetBuffer
         }
 
         self.buffer.clear();
+        self.peak_amp = 0.0;
         return replacement;
     }
 }
