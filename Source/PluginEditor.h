@@ -15,6 +15,7 @@ public:
 private:
     WaveSetWizardAudioProcessor& processor;
 
+    Label distortionLabel_;
     Slider distortionSlider_;
 
 
