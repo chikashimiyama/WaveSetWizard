@@ -4,7 +4,23 @@
               pluginFormats="buildAU,buildVST3" pluginVST3Category="Distortion"
               cppLanguageStandard="17" companyName="NerdDaddy" companyWebsite="www.chikashi.net">
   <MAINGROUP id="YgYkUL" name="WaveSetWizard">
+    <GROUP id="{2DC939CB-2CFC-82E9-3CC5-A0D69E684A25}" name="Resources">
+      <FILE id="SMnXKw" name="background.png" compile="0" resource="1" file="Resources/background.png"/>
+    </GROUP>
     <GROUP id="{666CBCC2-85E0-6653-0000-676FF76A1CCA}" name="Source">
+      <FILE id="cUibIA" name="ISliderPresenter.h" compile="0" resource="0"
+            file="Source/ISliderPresenter.h"/>
+      <FILE id="r1ImsL" name="ISlider.h" compile="0" resource="0" file="Source/ISlider.h"/>
+      <FILE id="sRhbNY" name="Slider.cpp" compile="1" resource="0" file="Source/Slider.cpp"/>
+      <FILE id="T7MBNB" name="Slider.h" compile="0" resource="0" file="Source/Slider.h"/>
+      <FILE id="Se2B9T" name="SliderPresenter.cpp" compile="1" resource="0"
+            file="Source/SliderPresenter.cpp"/>
+      <FILE id="EHpypi" name="SliderPresenter.h" compile="0" resource="0"
+            file="Source/SliderPresenter.h"/>
+      <FILE id="xB9m21" name="ProcessorState.h" compile="0" resource="0"
+            file="Source/ProcessorState.h"/>
+      <FILE id="ztksXX" name="ProcessorState.cpp" compile="1" resource="0"
+            file="Source/ProcessorState.cpp"/>
       <FILE id="sRKiUO" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="yauMbA" name="PluginProcessor.h" compile="0" resource="0"
