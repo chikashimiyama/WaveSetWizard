@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="Zcrp5j" name="WaveSetWizard" projectType="audioplug" jucerVersion="5.4.7"
+<JUCERPROJECT id="Zcrp5j" name="WaveSetWizard" projectType="audioplug" jucerVersion="5.2.1"
               pluginFormats="buildAU,buildVST3" pluginVST3Category="Distortion"
-              cppLanguageStandard="17" companyName="NerdDaddy" companyWebsite="www.chikashi.net">
+              cppLanguageStandard="17" companyName="NerdDaddy" companyWebsite="www.chikashi.net"
+              buildVST3="1" buildVST="0">
   <MAINGROUP id="YgYkUL" name="WaveSetWizard">
     <GROUP id="{2DC939CB-2CFC-82E9-3CC5-A0D69E684A25}" name="Resources">
       <FILE id="SMnXKw" name="background.png" compile="0" resource="1" file="Resources/background.png"/>
     </GROUP>
     <GROUP id="{666CBCC2-85E0-6653-0000-676FF76A1CCA}" name="Source">
-      <FILE id="cUibIA" name="ISliderPresenter.h" compile="0" resource="0"
-            file="Source/ISliderPresenter.h"/>
-      <FILE id="r1ImsL" name="ISlider.h" compile="0" resource="0" file="Source/ISlider.h"/>
-      <FILE id="sRhbNY" name="Slider.cpp" compile="1" resource="0" file="Source/Slider.cpp"/>
-      <FILE id="T7MBNB" name="Slider.h" compile="0" resource="0" file="Source/Slider.h"/>
-      <FILE id="Se2B9T" name="SliderPresenter.cpp" compile="1" resource="0"
-            file="Source/SliderPresenter.cpp"/>
-      <FILE id="EHpypi" name="SliderPresenter.h" compile="0" resource="0"
-            file="Source/SliderPresenter.h"/>
+      <FILE id="yRlENH" name="IKnobComponent.h" compile="0" resource="0"
+            file="Source/IKnobComponent.h"/>
+      <FILE id="gn0V2u" name="ISelectorComponent.h" compile="0" resource="0"
+            file="Source/ISelectorComponent.h"/>
+      <FILE id="esyWSE" name="ParameterType.h" compile="0" resource="0" file="Source/ParameterType.h"/>
+      <FILE id="dstNMx" name="SelectorCompomnent.cpp" compile="1" resource="0"
+            file="Source/SelectorCompomnent.cpp"/>
+      <FILE id="sqY7zE" name="SelectorCompomnent.h" compile="0" resource="0"
+            file="Source/SelectorCompomnent.h"/>
+      <FILE id="RHqxvr" name="KnobComponent.cpp" compile="1" resource="0"
+            file="Source/KnobComponent.cpp"/>
+      <FILE id="EhTxUe" name="KnobComponent.h" compile="0" resource="0" file="Source/KnobComponent.h"/>
       <FILE id="xB9m21" name="ProcessorState.h" compile="0" resource="0"
             file="Source/ProcessorState.h"/>
       <FILE id="ztksXX" name="ProcessorState.cpp" compile="1" resource="0"

@@ -108,8 +108,7 @@ void WaveSetWizardAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    auto* rawdata = buffer.getWritePointer (0);
-    process(engine_, rawdata, 2, buffer.getNumSamples());
+    process(engine_, buffer.getWritePointer (0), 2, buffer.getNumSamples());
 }
 
 bool WaveSetWizardAudioProcessor::hasEditor() const
