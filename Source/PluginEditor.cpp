@@ -23,11 +23,8 @@ WaveSetWizardAudioProcessorEditor::WaveSetWizardAudioProcessorEditor (WaveSetWiz
     selectorComponent_ = std::make_unique<nd::SelectorComponent>(Rectangle<int>(10, 60, 95, 100));
     addAndMakeVisible(*selectorComponent_);
 
-
     knobComponent_ = std::make_unique<nd::KnobComponent>(Rectangle<int>(105, 60, 285, 100));
     addAndMakeVisible(*knobComponent_);
-
-
 }
 
 WaveSetWizardAudioProcessorEditor::~WaveSetWizardAudioProcessorEditor()
