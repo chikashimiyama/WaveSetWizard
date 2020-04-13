@@ -1,4 +1,4 @@
-#include "SelectorCompomnent.h"
+#include "SelectorComponent.h"
 
 namespace nd
 {

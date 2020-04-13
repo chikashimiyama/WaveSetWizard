@@ -2,23 +2,32 @@
 
 #include <JuceHeader.h>
 
-#include "SelectorCompomnent.h"
-#include "KnobComponent.h"
+#include "ISelectorComponent.h"
+#include "IKnobComponent.h"
 #include "PluginProcessor.h"
 
-class WaveSetWizardAudioProcessorEditor  : public AudioProcessorEditor
+namespace nd
 {
-public:
-    WaveSetWizardAudioProcessorEditor (WaveSetWizardAudioProcessor&);
-    ~WaveSetWizardAudioProcessorEditor();
+    class WaveSetWizardAudioProcessorEditor: public AudioProcessorEditor,
+                                             public ISelectorComponent::Listener,
+                                             public IKnobComponent::Listener
+    {
+    public:
+        WaveSetWizardAudioProcessorEditor(WaveSetWizardAudioProcessor&);
 
-    void paint (Graphics&) override;
-    void resized() override;
+        ~WaveSetWizardAudioProcessorEditor();
 
-private:
-    WaveSetWizardAudioProcessor& processor_;
-    std::unique_ptr<nd::SelectorComponent> selectorComponent_;
-    std::unique_ptr<nd::KnobComponent> knobComponent_;
+        void paint(Graphics&) override;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveSetWizardAudioProcessorEditor)
-};
+        void resized() override;
+
+        void onValueChanged(ParameterType type, float value) override;
+
+    private:
+        WaveSetWizardAudioProcessor& processor_;
+        std::unique_ptr<nd::ISelectorComponent> selectorComponent_;
+        std::unique_ptr<nd::IKnobComponent> knobComponent_;
+
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveSetWizardAudioProcessorEditor)
+    };
+}

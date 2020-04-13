@@ -7,9 +7,7 @@
 
 namespace nd
 {
-    class SelectorComponent : public ISelectorComponent,
-                              public Component,
-                              public ComboBox::Listener
+    class SelectorComponent : public ISelectorComponent
     {
     public:
         SelectorComponent(Rectangle<int> bound);

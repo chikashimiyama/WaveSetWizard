@@ -1,10 +1,12 @@
 #pragma once
 
+#include <JuceHeader.h>
 #include "ParameterType.h"
 
 namespace nd
 {
-    class ISelectorComponent
+    class ISelectorComponent : public Component,
+                               public ComboBox::Listener
     {
     public:
         class Listener

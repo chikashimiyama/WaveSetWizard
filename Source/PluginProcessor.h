@@ -3,37 +3,61 @@
 #include <wsw.h>
 
 #include <JuceHeader.h>
+#include "ParameterType.h"
 
-class WaveSetWizardAudioProcessor  : public AudioProcessor
+namespace nd
 {
-public:
-    WaveSetWizardAudioProcessor();
-    ~WaveSetWizardAudioProcessor();
+    class WaveSetWizardAudioProcessor : public AudioProcessor
+    {
+    public:
+        WaveSetWizardAudioProcessor();
 
-    void prepareToPlay (double sampleRate, int samplesPerBlock) override;
-    void releaseResources() override;
+        ~WaveSetWizardAudioProcessor();
 
-   #ifndef JucePlugin_PreferredChannelConfigurations
-    bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
-   #endif
+        void prepareToPlay(double sampleRate, int samplesPerBlock) override;
 
-    void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
-    AudioProcessorEditor* createEditor() override;
-    bool hasEditor() const override;
-    const String getName() const override;
-    bool acceptsMidi() const override;
-    bool producesMidi() const override;
-    bool isMidiEffect() const override;
-    double getTailLengthSeconds() const override;
-    int getNumPrograms() override;
-    int getCurrentProgram() override;
-    void setCurrentProgram (int index) override;
-    const String getProgramName (int index) override;
-    void changeProgramName (int index, const String& newName) override;
-    void getStateInformation (MemoryBlock& destData) override;
-    void setStateInformation (const void* data, int sizeInBytes) override;
+        void releaseResources() override;
 
-private:
-   Engine* engine_;
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveSetWizardAudioProcessor)
-};
+#ifndef JucePlugin_PreferredChannelConfigurations
+
+        bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
+
+#endif
+
+        void processBlock(AudioBuffer<float>&, MidiBuffer&) override;
+
+        AudioProcessorEditor* createEditor() override;
+
+        bool hasEditor() const override;
+
+        const String getName() const override;
+
+        bool acceptsMidi() const override;
+
+        bool producesMidi() const override;
+
+        bool isMidiEffect() const override;
+
+        double getTailLengthSeconds() const override;
+
+        int getNumPrograms() override;
+
+        int getCurrentProgram() override;
+
+        void setCurrentProgram(int index) override;
+
+        const String getProgramName(int index) override;
+
+        void changeProgramName(int index, const String& newName) override;
+
+        void getStateInformation(MemoryBlock& destData) override;
+
+        void setStateInformation(const void* data, int sizeInBytes) override;
+
+        void setValue(ParameterType type, float value);
+    private:
+        Engine* engine_;
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveSetWizardAudioProcessor)
+    };
+
+}

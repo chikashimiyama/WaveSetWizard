@@ -21,6 +21,7 @@ namespace nd
             coefficientSlider_.setTextBoxStyle(Slider::TextBoxBelow, false, 60, 15);
             coefficientSlider_.setValue(1.0);
             coefficientSlider_.setBounds(coefficientBound);
+            coefficientSlider_.addListener(this);
             addAndMakeVisible (&coefficientSlider_);
         }
 
@@ -39,6 +40,7 @@ namespace nd
             distortionSlider_.setTextBoxStyle(Slider::TextBoxBelow, false, 60, 15);
             distortionSlider_.setValue(1.0);
             distortionSlider_.setBounds(distortionBound);
+            distortionSlider_.addListener(this);
             addAndMakeVisible (&distortionSlider_);
         }
 
@@ -57,13 +59,25 @@ namespace nd
             attenuationSlider_.setTextBoxStyle(Slider::TextBoxBelow, false, 60, 15);
             attenuationSlider_.setValue(1.0);
             attenuationSlider_.setBounds(attenuationBound);
+            attenuationSlider_.addListener(this);
             addAndMakeVisible (&attenuationSlider_);
         }
     }
 
-    void KnobComponent::sliderValueChanged(Slider* /*slider*/)
+    void KnobComponent::sliderValueChanged(Slider* slider)
     {
+        auto notify = [this](ParameterType type, float value){
+            for (auto&& listener: listeners_)
+                listener->onValueChanged(type, value);
+        };
 
+        const auto val = static_cast<float>(slider->getValue());
+        if(slider == &coefficientSlider_)
+            notify(ParameterType::Coefficient, val);
+        else if(slider == &distortionSlider_)
+            notify(ParameterType::Distortion, val);
+        else if(slider == &attenuationSlider_)
+            notify(ParameterType::Attenuation, val);
     }
 
     void KnobComponent::addListener(IKnobComponent::Listener* listener)

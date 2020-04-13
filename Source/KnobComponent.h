@@ -6,9 +6,7 @@
 
 namespace nd
 {
-    class KnobComponent : public IKnobComponent,
-                          public Component,
-                          public Slider::Listener
+    class KnobComponent : public IKnobComponent
     {
     public:
         KnobComponent(Rectangle<int> bound);

@@ -1,10 +1,12 @@
 #pragma once
 
+#include <JuceHeader.h>
 #include "ParameterType.h"
 
 namespace nd
 {
-    class IKnobComponent
+    class IKnobComponent : public Component,
+                           public Slider::Listener
     {
     public:
         class Listener

@@ -21,10 +21,6 @@
       <FILE id="RHqxvr" name="KnobComponent.cpp" compile="1" resource="0"
             file="Source/KnobComponent.cpp"/>
       <FILE id="EhTxUe" name="KnobComponent.h" compile="0" resource="0" file="Source/KnobComponent.h"/>
-      <FILE id="xB9m21" name="ProcessorState.h" compile="0" resource="0"
-            file="Source/ProcessorState.h"/>
-      <FILE id="ztksXX" name="ProcessorState.cpp" compile="1" resource="0"
-            file="Source/ProcessorState.cpp"/>
       <FILE id="sRKiUO" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="yauMbA" name="PluginProcessor.h" compile="0" resource="0"
