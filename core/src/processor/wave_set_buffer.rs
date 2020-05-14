@@ -19,15 +19,17 @@ impl WaveSetBuffer
         self.buffer.push(sample);
     }
 
-    pub fn generate(&mut self)->Vec<f32> {
+    pub fn generate(&mut self, distortion: f32, attenuation: f32)->Vec<f32> {
         let length = self.buffer.len();
         let cycle = std::f32::consts::PI * 2.0;
         let step = cycle / length as f32;
         let mut phase = 0.0;
 
         let mut replacement = Vec::with_capacity(length);
-        for _ in 0..length{
-            replacement.push(f32::sin(phase) * self.peak_amp );
+        for i in 0..length{
+            let replacement_value = f32::sin(phase) * ((1.0 - self.peak_amp) * -attenuation + self.peak_amp);
+            let original_value = self.buffer[i];
+            replacement.push((replacement_value - original_value) * distortion + original_value);
             phase += step;
         }
 

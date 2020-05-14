@@ -19,6 +19,16 @@ pub unsafe extern fn process( engine: &mut Engine, buffer : *mut f32, channels: 
 }
 
 #[no_mangle]
+pub extern fn set_coefficient(engine: &mut Engine, value: f32) {
+    engine.set_coefficient(value);
+}
+
+#[no_mangle]
 pub extern fn set_distortion(engine: &mut Engine, value: f32) {
     engine.set_distortion(value)
+}
+
+#[no_mangle]
+pub extern fn set_attenuation(engine: &mut Engine, value: f32) {
+    engine.set_attenuation(value)
 }

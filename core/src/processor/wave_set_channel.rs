@@ -20,9 +20,9 @@ impl WaveSetChannel{
         }
     }
 
-    pub fn push_pop(&mut self, sample: f32) -> f32 {
+    pub fn push_pop(&mut self, sample: f32, distortion: f32, attenuation: f32) -> f32 {
         if self.wave_set_detector.check(sample){
-            let replacement = self.current_buffer.generate();
+            let replacement = self.current_buffer.generate(distortion, attenuation);
             for value in replacement {
                 self.processed.push_back(value);
             }
