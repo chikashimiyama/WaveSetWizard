@@ -2,9 +2,9 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 #include <TrevorCore.h>
-#include <stitch/queue_spsc_waitfree.h>
 
 #include "ParameterType.h"
+#include "ParameterSet.h"
 
 namespace agsp
 {
@@ -59,13 +59,13 @@ namespace agsp
     private:
         Engine* engine_;
 
+        ParameterSet parameterSet_;
+
         struct Command
         {
             ParameterType type;
             float value;
         };
-
-        Stitch::Waitfree_SPSC_Queue<Command> queue_;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TrevorProcessor)
     };

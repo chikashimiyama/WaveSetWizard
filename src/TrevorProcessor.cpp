@@ -9,7 +9,6 @@ namespace agsp
         : AudioProcessor(BusesProperties()
                              .withInput("Input", AudioChannelSet::stereo(), true)
                              .withOutput("Output", AudioChannelSet::stereo(), true))
-         , queue_(2048)
     {
         engine_ = create(2);
     }
@@ -115,26 +114,10 @@ namespace agsp
         for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
             buffer.clear(i, 0, buffer.getNumSamples());
 
-        {
-            auto command = Command{};
-            while(queue_.pop(command))
-            {
-                switch(command.type)
-                {
-                    case ParameterType::Distortion:
-                    {
-                        set_distortion(engine_, command.value); break;
-                    }
-                    case ParameterType::Attenuation:
-                    {
-                        set_attenuation(engine_, command.value); break;
-                    }
-                    default:
-                        break;
-                }
-            }
+        set_coefficient(engine_, parameterSet_.coefficient);
+        set_distortion(engine_, parameterSet_.distortion);
+        set_attenuation(engine_, parameterSet_.attenuation);
 
-        }
         process(engine_, buffer.getWritePointer(0), 2, buffer.getNumSamples());
     }
 
@@ -158,9 +141,17 @@ namespace agsp
 
     }
 
-    void TrevorProcessor::setValue(ParameterType type*/, float value)
+    void TrevorProcessor::setValue(ParameterType type, float value)
     {
-        queue_.push(Command{type, value});
+        switch(type)
+        {
+            case ParameterType::Coefficient:
+                parameterSet_.coefficient = value; return;
+            case ParameterType::Distortion:
+                parameterSet_.distortion = value; return;
+            case ParameterType::Attenuation:
+                parameterSet_.attenuation = value; return;
+        }
     }
 }
 

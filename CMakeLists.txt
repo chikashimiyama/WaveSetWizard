@@ -5,15 +5,12 @@ project(trevor VERSION 1.0.0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 add_subdirectory(JUCE)
-add_subdirectory(stitch)
 
 find_package(Trevor)
 
 execute_process(
     COMMAND cbindgen --output include/TrevorCore.h
-    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/core")
-
-execute_process(
+    COMMAND cargo clean
     COMMAND cargo build --release
     COMMAND cargo build
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/core")
@@ -48,8 +45,7 @@ target_link_libraries(trevor
     PRIVATE
     trevorData
     juce::juce_audio_utils
-    Trevor::Core
-    stitch)
+    Trevor::Core)
 
 target_compile_features(trevor INTERFACE cxx_std_17)
 
