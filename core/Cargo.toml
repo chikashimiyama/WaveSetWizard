@@ -1,5 +1,5 @@
 [package]
-name = "wswcore"
+name = "trevor_core"
 version = "0.1.0"
 authors = ["Chikashi Miyama <chikashimiyama@gmail.com>"]
 edition = "2018"

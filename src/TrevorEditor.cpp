@@ -1,14 +1,15 @@
-#include "PluginProcessor.h"
-#include "PluginEditor.h"
+#include "TrevorProcessor.h"
+#include "TrevorEditor.h"
 
-#include "SelectorComponent.h"
 #include "KnobComponent.h"
+
+#include <BinaryData.h>
 
 namespace agsp
 {
     using namespace juce;
 
-    WaveSetWizardAudioProcessorEditor::WaveSetWizardAudioProcessorEditor(WaveSetWizardAudioProcessor& p)
+    TrevorEditor::TrevorEditor(TrevorProcessor& p)
         : AudioProcessorEditor(&p)
           , processor_(p)
     {
@@ -27,31 +28,27 @@ namespace agsp
         lookAndFeel.setDefaultSansSerifTypefaceName("Copperplate");
         setSize(400, 220);
 
-        selectorComponent_ = std::make_unique<SelectorComponent>(Rectangle<int>(10, 60, 95, 100));
-        selectorComponent_->addListener(this);
-        addAndMakeVisible(*selectorComponent_);
-
         knobComponent_ = std::make_unique<KnobComponent>(Rectangle<int>(105, 60, 285, 100));
         knobComponent_->addListener(this);
         addAndMakeVisible(*knobComponent_);
     }
 
-    WaveSetWizardAudioProcessorEditor::~WaveSetWizardAudioProcessorEditor()
+    TrevorEditor::~TrevorEditor()
     {
     }
 
-    void WaveSetWizardAudioProcessorEditor::paint(Graphics& g)
+    void TrevorEditor::paint(Graphics& g)
     {
-        Image background = ImageCache::getFromMemory(BinaryData::background_png, BinaryData::background_pngSize);
+        Image background = ImageCache::getFromMemory(BinaryData::trevor_png, BinaryData::trevor_pngSize);
         g.drawImageAt(background, 0, 0);
         g.setColour(Colours::black);
     }
 
-    void WaveSetWizardAudioProcessorEditor::resized()
+    void TrevorEditor::resized()
     {
     }
 
-    void WaveSetWizardAudioProcessorEditor::onValueChanged(ParameterType type, float value)
+    void TrevorEditor::onValueChanged(ParameterType type, float value)
     {
         processor_.setValue(type, value);
     }

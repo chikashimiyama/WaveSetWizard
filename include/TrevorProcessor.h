@@ -1,18 +1,19 @@
 #pragma once
 
-#include <wsw.h>
-
 #include <juce_audio_processors/juce_audio_processors.h>
+#include <TrevorCore.h>
+#include <stitch/queue_spsc_waitfree.h>
+
 #include "ParameterType.h"
 
 namespace agsp
 {
-    class WaveSetWizardAudioProcessor : public juce::AudioProcessor
+    class TrevorProcessor : public juce::AudioProcessor
     {
     public:
-        WaveSetWizardAudioProcessor();
+        TrevorProcessor();
 
-        ~WaveSetWizardAudioProcessor();
+        ~TrevorProcessor();
 
         void prepareToPlay(double sampleRate, int samplesPerBlock) override;
 
@@ -57,7 +58,16 @@ namespace agsp
         void setValue(ParameterType type, float value);
     private:
         Engine* engine_;
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveSetWizardAudioProcessor)
+
+        struct Command
+        {
+            ParameterType type;
+            float value;
+        };
+
+        Stitch::Waitfree_SPSC_Queue<Command> queue_;
+
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TrevorProcessor)
     };
 
 }

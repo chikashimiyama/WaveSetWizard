@@ -2,20 +2,34 @@ cmake_minimum_required(VERSION 3.15)
 
 project(trevor VERSION 1.0.0)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 add_subdirectory(JUCE)
+add_subdirectory(stitch)
+
+find_package(Trevor)
+
+execute_process(
+    COMMAND cbindgen --output include/TrevorCore.h
+    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/core")
+
+execute_process(
+    COMMAND cargo build --release
+    COMMAND cargo build
+    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/core")
 
 juce_add_plugin(trevor
     PLUGIN_MANUFACTURER_CODE Agsp
     PLUGIN_CODE Trev
     FORMATS VST3
+    COMPANY_NAME "Angry Sparrow GmbH"
     PRODUCT_NAME "Trevor")
 
 target_sources(trevor
     PRIVATE
-    src/SelectorComponent.cpp
     src/KnobComponent.cpp
-    src/PluginEditor.cpp
-    src/PluginProcessor.cpp)
+    src/TrevorEditor.cpp
+    src/TrevorProcessor.cpp)
 
 target_compile_definitions(trevor
     PUBLIC
@@ -27,6 +41,16 @@ target_include_directories(trevor
     PRIVATE
     include)
 
+juce_add_binary_data(trevorData
+    SOURCES resource/trevor.png)
+
 target_link_libraries(trevor
     PRIVATE
-    juce::juce_audio_utils)
+    trevorData
+    juce::juce_audio_utils
+    Trevor::Core
+    stitch)
+
+target_compile_features(trevor INTERFACE cxx_std_17)
+
+
